@@ -1,0 +1,95 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Warm neutral ground, one brown accent family. No cool hues anywhere —
+     the work and the type carry the page, colour only marks position. */
+  --color-ink: #0a0807;
+  --color-ink-2: #15100c;
+  --color-bone: #f3efe8;
+  --color-clay: #b87a4b;
+  --color-cocoa: #7a5030;
+  --color-sand: #d9c3a6;
+
+  --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: dark;
+  --nav-h: 4.5rem;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The WebGL layer is decoration. R3F stamps touch-action: none on its canvas,
+   which would eat every swipe, so nothing in there may take input. */
+.scene-layer,
+.scene-layer * {
+  pointer-events: none !important;
+  touch-action: auto !important;
+}
+
+/* Tailwind v4's preflight leaves buttons on the default arrow */
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Utilities */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.edge-fade {
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, #f3efe8 8%, #d9c3a6 48%, #b87a4b 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass {
+  background: color-mix(in oklab, #15100c 62%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in oklab, #f4f1ea 12%, transparent);
+}
+
+[data-reveal] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
